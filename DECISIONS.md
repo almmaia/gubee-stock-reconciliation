@@ -90,18 +90,7 @@ Os principais trade-offs foram os seguintes:
 - estoque por conta e SKU, em vez de modelagem mais granular por anúncio
 - `STOCK_SYNC_SENT` apenas como evento de auditoria
 
-Essas escolhas simplificam a entrega sem perder o que o desafio realmente quer avaliar.
-
-## Simplificações feitas por causa do prazo
-
-Algumas partes foram mantidas simples de propósito:
-
-- não foi criada fila real
-- não foi criada autenticação
-- não foi criada infraestrutura de observabilidade avançada
-- não foi criado reprocessamento automático de pendências
-
-Essas evoluções fariam sentido em produção, mas não eram necessárias para demonstrar o raciocínio principal do desafio.
+Essas escolhas mantêm a solução objetiva, auditável e coerente com o cenário proposto no desafio.
 
 ## O que eu faria diferente em produção
 
@@ -115,8 +104,16 @@ Em um ambiente real, eu consideraria:
 - estratégia explícita de reconciliação com o marketplace
 - autenticação e autorização nos endpoints
 
+Esses pontos não fazem falta para a proposta do desafio, mas seriam a evolução natural de uma solução em produção.
+
 ## Resumo da solução
 
 A solução foi pensada para ser simples, auditável e consistente.
 
 Ela privilegia clareza de regra de negócio, rastreabilidade e previsibilidade do saldo, que são os pontos centrais do desafio.
+
+## Observações finais
+
+O projeto foi preparado para demonstrar, de ponta a ponta, o fluxo principal pedido no enunciado: receber eventos, aplicar as regras de estoque, registrar o histórico e permitir consulta do estado atual e das inconsistências.
+
+As decisões tomadas procuram manter o código legível, a arquitetura organizada e o comportamento da aplicação fácil de explicar em uma conversa técnica.

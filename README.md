@@ -15,7 +15,6 @@ O objetivo é manter uma visão confiável do estoque e permitir que o saldo atu
 - PostgreSQL
 - Flyway
 - Arquitetura hexagonal
-- Testcontainers
 - OpenAPI/Swagger
 - Docker Compose
 
@@ -28,6 +27,7 @@ docker compose up --build
 ```
 
 A aplicação ficará disponível em `http://localhost:8080`.
+O banco PostgreSQL do projeto sobe em `localhost:5435`.
 
 ### Localmente com PostgreSQL no Docker
 
@@ -128,6 +128,10 @@ Os testes automatizados cobrem os cenários principais do desafio, incluindo ide
 - O evento `STOCK_SYNC_SENT` é registrado para auditoria, mas não altera o saldo local.
 - Não há autenticação nem autorização nos endpoints.
 - O retry para concorrência é limitado a cinco tentativas.
+
+## Observações sobre a solução
+
+As escolhas acima foram feitas para atender ao desafio com clareza, mantendo a lógica de negócio explícita, a rastreabilidade do saldo e a organização do código em camadas bem definidas.
 
 ## Documentação de decisões
 

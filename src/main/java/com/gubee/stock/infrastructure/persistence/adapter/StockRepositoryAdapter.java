@@ -35,7 +35,7 @@ public class StockRepositoryAdapter implements StockRepositoryPort {
 
     @Override
     public StockSnapshot getOrCreateStock(String accountId, String sku) {
-        return stockJpaRepository.findByAccountIdAndSku(accountId, sku)
+        return stockJpaRepository.findWithLockByAccountIdAndSku(accountId, sku)
                 .map(this::toSnapshot)
                 .orElseGet(() -> toSnapshot(stockJpaRepository.save(new StockEntity(accountId, sku, 0))));
     }
@@ -45,7 +45,7 @@ public class StockRepositoryAdapter implements StockRepositoryPort {
         if (newAvailable < 0) {
             throw new IllegalArgumentException("Stock cannot be negative: " + newAvailable);
         }
-        StockEntity entity = stockJpaRepository.findByAccountIdAndSku(accountId, sku)
+        StockEntity entity = stockJpaRepository.findWithLockByAccountIdAndSku(accountId, sku)
                 .orElseThrow(() -> new IllegalStateException("Stock not found for " + accountId + "/" + sku));
         if (entity.getVersion() != version) {
             throw new IllegalStateException(
