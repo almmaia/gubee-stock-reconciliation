@@ -1,12 +1,10 @@
 # gubee-stock-reconciliation
 
-Serviço de reconciliação de estoque para integração com marketplaces, desenvolvido em Java para o desafio técnico da Gubee.
+Serviço de reconciliação de estoque para o desafio técnico da Gubee, implementado em Java com Spring Boot e PostgreSQL.
 
 ## Visão geral
 
-A aplicação recebe eventos de estoque e pedidos via API REST, atualiza o saldo local por conta e SKU, registra o histórico das alterações e mantém o rastreio dos eventos processados, pendentes e inconsistentes.
-
-O objetivo é manter uma visão confiável do estoque e permitir que o saldo atual possa ser explicado com base nos eventos recebidos.
+A aplicação recebe eventos de estoque e pedidos via API REST, atualiza o saldo local por conta e SKU, registra histórico das alterações e disponibiliza consultas para o estoque atual, eventos processados e inconsistências.
 
 ## Tecnologias utilizadas
 
@@ -26,8 +24,8 @@ O objetivo é manter uma visão confiável do estoque e permitir que o saldo atu
 docker compose up --build
 ```
 
-A aplicação ficará disponível em `http://localhost:8080`.
-O banco PostgreSQL do projeto sobe em `localhost:5435`.
+A aplicação fica disponível em `http://localhost:8080`.
+O PostgreSQL do projeto sobe em `localhost:5435`.
 
 ### Localmente com PostgreSQL no Docker
 
@@ -53,7 +51,7 @@ docker compose up postgres -d
 
 `GET /stocks/{accountId}/{sku}`
 
-### Consultar histórico do estoque
+### Consultar histórico
 
 `GET /stocks/{accountId}/{sku}/history`
 
@@ -118,21 +116,21 @@ No Windows:
 .\gradlew.bat test
 ```
 
-Os testes automatizados cobrem os cenários principais do desafio, incluindo idempotência, duplicidade lógica, eventos fora de ordem e concorrência.
-
 ## Limitações conhecidas
 
 - O processamento é síncrono e feito via REST.
-- Não há Kafka real; a solução usa processamento interno.
+- Não há Kafka real; o fluxo é processado internamente.
 - O estoque é controlado por `accountId + sku`, e não por marketplace.
 - O evento `STOCK_SYNC_SENT` é registrado para auditoria, mas não altera o saldo local.
 - Não há autenticação nem autorização nos endpoints.
-- O retry para concorrência é limitado a cinco tentativas.
+- O retry para concorrência é limitado.
 
-## Observações sobre a solução
+## Arquivos obrigatórios
 
-As escolhas acima foram feitas para atender ao desafio com clareza, mantendo a lógica de negócio explícita, a rastreabilidade do saldo e a organização do código em camadas bem definidas.
+- `README.md`
+- `DECISIONS.md`
+- `docker-compose.yml`
 
 ## Documentação de decisões
 
-As decisões técnicas e as justificativas estão descritas em [DECISIONS.md](DECISIONS.md).
+As decisões técnicas estão descritas em [DECISIONS.md](DECISIONS.md).
